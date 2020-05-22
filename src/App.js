@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMachine } from '@xstate/react';
+import { head, pathOr } from 'ramda';
 
 import { fetchMachine } from './machines/fetch';
 
@@ -20,11 +21,13 @@ function App() {
     },
   });
 
+  const forecast = head(pathOr([], ['context', 'data'], state));
+
   return (
     <main>
       <div className="flex p-3 h-screen">
         <div className="w-1/4 bg-gray-500 h-full">
-          <Sidebar send={send} state={state} />
+          <Sidebar send={send} forecast={forecast} />
         </div>
         <div className="w-3/4 bg-gray-400 h-full">Content</div>
       </div>

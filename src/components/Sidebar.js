@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { func, number, object, shape, string } from 'prop-types';
 
-const Sidebar = ({ send, state }) => {
+const Sidebar = ({ forecast, send }) => {
   const [city, setCity] = useState();
 
   const handleTextChange = (e) => setCity(e.target.value);
@@ -26,6 +27,16 @@ const Sidebar = ({ send, state }) => {
       </div>
     </section>
   );
+};
+
+Sidebar.propTypes = {
+  forecast: shape({
+    astro: object,
+    date: string,
+    date_epoch: number,
+    day: object,
+  }),
+  send: func.isRequired,
 };
 
 export default Sidebar;
