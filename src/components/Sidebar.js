@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 
-const Sidebar = () => {
+const Sidebar = ({ send, state }) => {
   const [city, setCity] = useState();
 
   const handleTextChange = (e) => setCity(e.target.value);
 
   const handleKeyPress = (e) => {
     if (e.which === 13 || e.keyCode === 13) {
-      fetchWeather();
+      send('FETCH', { query: city });
     }
-  };
-
-  const fetchWeather = async () => {
-    // fetch api
   };
 
   return (
