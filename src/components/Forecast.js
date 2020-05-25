@@ -1,4 +1,5 @@
 import React from 'react';
+import { shape, string } from 'prop-types';
 
 const getDayName = (strDate) => {
   const date = new Date(strDate);
@@ -28,6 +29,17 @@ const Forecast = ({ date, day }) => {
       </div>
     </div>
   );
+};
+
+Forecast.propTypes = {
+  date: string,
+  day: shape({
+    condition: shape({
+      icon: string,
+    }),
+    maxtemp_c: string,
+    mintemp_c: string,
+  }),
 };
 
 export default Forecast;
