@@ -1,15 +1,43 @@
 import React, { useState } from 'react';
-import { func, number, object, shape, string } from 'prop-types';
+import { atom, useRecoilState } from 'recoil';
 
-const Sidebar = ({ forecast, send }) => {
+const ENDPOINT = 'http://api.weatherapi.com/v1/forecast.json';
+
+const weatherState = atom({
+  key: 'forecast',
+  default: {
+    status: 'IDLE',
+    data: null,
+    error: null,
+  },
+});
+
+const Sidebar = () => {
   const [city, setCity] = useState();
+  const [weather, setWeather] = useRecoilState(weatherState);
 
   const handleTextChange = (e) => setCity(e.target.value);
 
   const handleKeyPress = (e) => {
     if (e.which === 13 || e.keyCode === 13) {
-      send('FETCH', { query: city });
+      fetchWeather();
     }
+  };
+
+  const fetchWeather = () => {
+    setWeather((state) => ({
+      ...state,
+      status: 'PENDING',
+    }));
+
+    fetch(`${ENDPOINT}?key=${process.env.REACT_APP_WEATHER_TOKEN}&q=${city}&days=7`)
+      .then((response) => response.json())
+      .then((data) =>
+        setWeather((state) => ({ ...state, status: 'RESOLVED', data, error: null })),
+      )
+      .catch((error) =>
+        setWeather((state) => ({ ...state, status: 'REJECTED', data: null, error })),
+      );
   };
 
   return (
@@ -29,14 +57,6 @@ const Sidebar = ({ forecast, send }) => {
   );
 };
 
-Sidebar.propTypes = {
-  forecast: shape({
-    astro: object,
-    date: string,
-    date_epoch: number,
-    day: object,
-  }),
-  send: func.isRequired,
-};
+Sidebar.propTypes = {};
 
 export default Sidebar;
