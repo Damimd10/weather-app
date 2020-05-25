@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Content from './components/Content';
 import Sidebar from './components/Sidebar';
 
 function App() {
@@ -9,7 +10,9 @@ function App() {
         <div className="w-1/4 bg-gray-500 h-full">
           <Sidebar />
         </div>
-        <div className="w-3/4 bg-gray-400 h-full">Content</div>
+        <div className="w-3/4 bg-gray-400 h-full">
+          <Content />
+        </div>
       </div>
     </main>
   );

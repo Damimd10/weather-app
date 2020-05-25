@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import React from 'react';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+
+import { weatherState } from '../atoms';
 
 const ENDPOINT = 'http://api.weatherapi.com/v1/forecast.json';
 
-const weatherState = atom({
-  key: 'forecast',
-  default: {
-    status: 'IDLE',
-    data: null,
-    error: null,
-  },
+const city = atom({
+  key: 'city',
+  default: null,
 });
 
 const Sidebar = () => {
-  const [city, setCity] = useState();
-  const [weather, setWeather] = useRecoilState(weatherState);
+  const [value, setCity] = useRecoilState(city);
+  const setWeather = useSetRecoilState(weatherState);
 
   const handleTextChange = (e) => setCity(e.target.value);
 
@@ -25,19 +23,10 @@ const Sidebar = () => {
   };
 
   const fetchWeather = () => {
-    setWeather((state) => ({
-      ...state,
-      status: 'PENDING',
-    }));
-
-    fetch(`${ENDPOINT}?key=${process.env.REACT_APP_WEATHER_TOKEN}&q=${city}&days=7`)
+    fetch(`${ENDPOINT}?key=${process.env.REACT_APP_WEATHER_TOKEN}&q=${value}&days=7`)
       .then((response) => response.json())
-      .then((data) =>
-        setWeather((state) => ({ ...state, status: 'RESOLVED', data, error: null })),
-      )
-      .catch((error) =>
-        setWeather((state) => ({ ...state, status: 'REJECTED', data: null, error })),
-      );
+      .then(setWeather)
+      .catch((error) => error);
   };
 
   return (
@@ -50,7 +39,7 @@ const Sidebar = () => {
           onKeyPress={handleKeyPress}
           placeholder="Search"
           type="search"
-          value={city}
+          value={value}
         />
       </div>
     </section>
