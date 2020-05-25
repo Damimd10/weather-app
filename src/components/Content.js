@@ -1,8 +1,10 @@
 import React from 'react';
+import { head } from 'ramda';
 import { selector, useRecoilValueLoadable } from 'recoil';
 
 import { weatherState } from '../atoms';
 
+import Astro from './Astro';
 import Forecast from './Forecast';
 import HighlightUV from './HighlightUV';
 import WindStatus from './WindStatus';
@@ -30,9 +32,9 @@ const Content = () => {
   if (state === 'loading') return <span>Loading...</span>;
   if (state === 'hasError') return <span>Error</span>;
 
-  console.log('HERE', contents);
-
   const { current, forecast } = contents;
+
+  console.log('HERE', contents);
 
   return (
     <main>
@@ -44,6 +46,7 @@ const Content = () => {
       <div className="my-2 flex justify-center flex-wrap">
         <HighlightUV index={current.uv} />
         <WindStatus wind={current.wind_kph} direction={current.wind_dir} />
+        <Astro {...head(forecast).astro} />
       </div>
     </main>
   );
