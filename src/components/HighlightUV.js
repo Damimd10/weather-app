@@ -6,7 +6,7 @@ import StatBox from './StatBox';
 
 const HighlightUV = ({ index }) => {
   useEffect(() => {
-    const gauge = new JustGage({
+    new JustGage({
       id: 'gauge',
       value: index,
       min: 0,

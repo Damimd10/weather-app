@@ -6,7 +6,9 @@ import { weatherState } from '../atoms';
 
 import Astro from './Astro';
 import Forecast from './Forecast';
+import Humidity from './Humidity';
 import HighlightUV from './HighlightUV';
+import Visibility from './Visibility';
 import WindStatus from './WindStatus';
 
 const currentForecast = selector({
@@ -15,6 +17,8 @@ const currentForecast = selector({
     const response = await get(weatherState);
 
     if (!response) return null;
+
+    console.log('HERE', response);
 
     const { current, forecast } = response;
 
@@ -34,8 +38,6 @@ const Content = () => {
 
   const { current, forecast } = contents;
 
-  console.log('HERE', contents);
-
   return (
     <main>
       <div className="my-2 flex justify-center mb-4">
@@ -47,6 +49,10 @@ const Content = () => {
         <HighlightUV index={current.uv} />
         <WindStatus wind={current.wind_kph} direction={current.wind_dir} />
         <Astro {...head(forecast).astro} />
+      </div>
+      <div className="my-2 flex justify-center flex-wrap">
+        <Humidity humidity={current.humidity} />
+        <Visibility visibility={current.vis_km} />
       </div>
     </main>
   );
