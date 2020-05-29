@@ -1,32 +1,23 @@
 import React from 'react';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 
-import { compose, groupBy, map, pipe } from 'ramda';
-import moment from 'moment';
-
 import { weatherState } from '../atoms';
 
-const ENDPOINT = 'http://api.openweathermap.org/data/2.5/forecast';
+const ENDPOINT = 'http://api.openweathermap.org/data/2.5/weather';
+const ENDPOINT_ONE_CALL = 'https://api.openweathermap.org/data/2.5/onecall';
 
 const city = atom({
   key: 'city',
   default: '',
 });
 
-const parseResponse = (response) => {
-  const parseList = pipe(
-    map((forecast) => ({
-      ...forecast,
-      dt: moment.unix(forecast.dt),
-    })),
-    groupBy((forecast) => moment(forecast.dt).startOf('day').format('DD-MM-YYYY')),
-  );
-
-  return {
-    ...response,
-    list: parseList(response.list),
-  };
-};
+function fetchForecast({ lat, lon }) {
+  return fetch(
+    `${ENDPOINT_ONE_CALL}?lat=${lat}&lon=${lon}&exclude=minutely,hourly&units=metric&APPID=${process.env.REACT_APP_WEATHER_TOKEN}`,
+  )
+    .then((response) => response.json())
+    .catch((error) => error);
+}
 
 const Sidebar = () => {
   const [value, setCity] = useRecoilState(city);
@@ -41,11 +32,9 @@ const Sidebar = () => {
   };
 
   const fetchWeather = () => {
-    fetch(
-      `${ENDPOINT}?q=${value}&units=metric&&APPID=${process.env.REACT_APP_WEATHER_TOKEN}`,
-    )
+    fetch(`${ENDPOINT}?q=${value}&APPID=${process.env.REACT_APP_WEATHER_TOKEN}`)
       .then((response) => response.json())
-      .then(parseResponse)
+      .then(({ coord }) => fetchForecast(coord))
       .then(setWeather)
       .catch((error) => error);
   };

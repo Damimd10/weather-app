@@ -1,6 +1,8 @@
 import React from 'react';
-import { head } from 'ramda';
+import { take } from 'ramda';
 import { selector, useRecoilValueLoadable } from 'recoil';
+
+import moment from 'moment';
 
 import { weatherState } from '../atoms';
 
@@ -18,11 +20,11 @@ const currentForecast = selector({
 
     if (!response) return null;
 
-    const { city, list } = response;
+    const { current, daily } = response;
 
     return {
-      city,
-      list,
+      current,
+      daily,
     };
   },
 });
@@ -34,27 +36,30 @@ const Content = () => {
   if (state === 'loading') return <span>Loading...</span>;
   if (state === 'hasError') return <span>Error</span>;
 
-  const { city, list } = contents;
+  const { current, daily } = contents;
 
-  const forecastSorted = Object.keys(list).sort((a, b) => new Date(b) - new Date(a));
-
-  console.log('HERE', list[forecastSorted[0]][0]);
+  const [_, ...forecast] = daily;
 
   return (
     <main>
       <div className="flex flex-wrap overflow-hidden m-2">
-        {forecastSorted.map((day) => (
-          <Forecast key={list[day][0].dt_txt} {...list[day][0]} />
+        {take(6, forecast).map((day) => (
+          <Forecast
+            key={day.dt}
+            dayName={moment.unix(day.dt).format('dddd')}
+            weather={day.weather}
+            {...day.temp}
+          />
         ))}
       </div>
       <div className="my-2 flex flex-wrap justify-center mx-1 overflow-hidden sm:-mx-1 md:-mx-1 lg:-mx-1 xl:mx-1">
-        {/* <HighlightUV index={current.uv} /> <Astro {...head(forecast).astro} /><Humidity humidity={current.humidity} />
-        <Visibility visibility={current.vis_km} /> */}
-        <WindStatus {...list[forecastSorted[0]][0].wind} />
-        <Astro sunrise={city.sunrise} sunset={city.sunset} />
+        <HighlightUV index={current.uvi} />
+        <WindStatus deg={current.wind_deg} speed={current.wind_speed} />
+        <Astro sunrise={current.sunrise} sunset={current.sunset} />
       </div>
       <div className="my-2 flex flex-wrap justify-center mx-1 overflow-hidden sm:-mx-1 md:-mx-1 lg:-mx-1 xl:mx-1">
-        <span>Hi</span>
+        <Humidity humidity={current.humidity} />
+        <Visibility visibility={current.visibility / 1000} />
       </div>
     </main>
   );

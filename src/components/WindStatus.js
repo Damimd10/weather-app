@@ -1,9 +1,6 @@
 import React from 'react';
 import { number } from 'prop-types';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWind } from '@fortawesome/free-solid-svg-icons';
-
 import StatBox from './StatBox';
 
 const DEGS = [0, 23, 45, 68, 90, 113, 135, 158, 180, 203, 225, 248, 270, 293, 313, 336];
