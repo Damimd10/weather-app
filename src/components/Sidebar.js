@@ -1,5 +1,8 @@
 import React from 'react';
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
+
+import moment from 'moment';
+import { head } from 'ramda';
 
 import { weatherState } from '../atoms';
 
@@ -21,7 +24,7 @@ function fetchForecast({ lat, lon }) {
 
 const Sidebar = () => {
   const [value, setCity] = useRecoilState(city);
-  const setWeather = useSetRecoilState(weatherState);
+  const [weather, setWeather] = useRecoilState(weatherState);
 
   const handleTextChange = (e) => setCity(e.target.value);
 
@@ -39,11 +42,13 @@ const Sidebar = () => {
       .catch((error) => error);
   };
 
+  const current = weather && head(weather.current.weather);
+
   return (
-    <section className="m-2">
+    <section className="m-2 flex flex-col items-center">
       <div className="relative text-center text-gray-600">
         <input
-          className="bg-white w-4/5 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+          className="bg-white w-4/5 h-10 px-5 pr-10 border-2 border-gray-400 rounded-full text-sm focus:outline-none"
           name="serch"
           onChange={handleTextChange}
           onKeyPress={handleKeyPress}
@@ -52,6 +57,27 @@ const Sidebar = () => {
           value={value}
         />
       </div>
+      {weather && (
+        <div>
+          <img
+            alt={current.main}
+            src={`http://openweathermap.org/img/wn/${current.icon}@4x.png`}
+          />
+          <div className="text-6xl">
+            {weather.current.temp}
+            <i className="wi wi-celsius text-x3l" />
+          </div>
+          <div>
+            <span className="text-3xl">
+              {moment.unix(weather.current.dt).format('dddd')}
+            </span>
+            ,
+            <span className="ml-2 text-3xl text-gray-500">
+              {moment.unix(weather.current.dt).format('HH:mm')}
+            </span>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

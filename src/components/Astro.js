@@ -10,11 +10,11 @@ const Astro = ({ sunrise, sunset }) => {
     <StatBox title="Sunrise & Sunset">
       <section className="text-gray-600 h-full flex flex-col justify-center">
         <div className="m-2 flex items-center justify-center">
-          <i className="wi wi-sunrise" style={{ fontSize: '3rem' }} />
+          <i className="wi wi-sunrise text-5xl" />
           <span className="mx-2 text-lg">{moment.unix(sunrise).format('HH:mm A')}</span>
         </div>
         <div className="m-2 flex items-center justify-center">
-          <i className="wi wi-sunset" style={{ fontSize: '3rem' }} />
+          <i className="wi wi-sunset text-5xl" />
           <span className="mx-2 text-lg">{moment.unix(sunset).format('HH:mm A')}</span>
         </div>
       </section>
