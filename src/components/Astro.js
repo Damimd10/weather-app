@@ -1,22 +1,21 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { number } from 'prop-types';
+
+import moment from 'moment';
 
 import StatBox from './StatBox';
-
-import sunriseIcon from '../assets/sunrise-40.png';
-import sunsetIcon from '../assets/sunset-40.png';
 
 const Astro = ({ sunrise, sunset }) => {
   return (
     <StatBox title="Sunrise & Sunset">
-      <section className="h-full flex flex-col justify-center">
+      <section className="text-gray-600 h-full flex flex-col justify-center">
         <div className="m-2 flex items-center justify-center">
-          <img src={sunriseIcon} style={{ height: '40px' }} />
-          <span className="mx-2 text-lg">{sunrise}</span>
+          <i className="wi wi-sunrise" style={{ fontSize: '3rem' }} />
+          <span className="mx-2 text-lg">{moment.unix(sunrise).format('HH:mm A')}</span>
         </div>
         <div className="m-2 flex items-center justify-center">
-          <img src={sunsetIcon} style={{ height: '40px' }} />
-          <span className="mx-2 text-lg">{sunset}</span>
+          <i className="wi wi-sunset" style={{ fontSize: '3rem' }} />
+          <span className="mx-2 text-lg">{moment.unix(sunset).format('HH:mm A')}</span>
         </div>
       </section>
     </StatBox>
@@ -24,8 +23,8 @@ const Astro = ({ sunrise, sunset }) => {
 };
 
 Astro.propTypes = {
-  sunrise: string,
-  sunset: string,
+  sunrise: number,
+  sunset: number,
 };
 
 export default Astro;

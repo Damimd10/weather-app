@@ -9,10 +9,12 @@ const HighlightUV = ({ index }) => {
     new JustGage({
       id: 'gauge',
       value: index,
+      valueFontColor: '#718096',
       min: 0,
       max: 10,
       decimals: 2,
       gaugeWidthScale: 0.6,
+      relativeGaugeSize: true,
       pointer: true,
       labelMinFontSize: 32,
       minLabelMinFontSize: 12,

@@ -5,7 +5,7 @@ import StatBox from './StatBox';
 
 const Visibility = ({ visibility }) => (
   <StatBox title="Visibility">
-    <div className="flex items-center justify-center">
+    <div className="text-gray-600 flex items-center justify-center">
       <span className="m-2 text-6xl">{visibility}</span>
       <span className="text-2xl">km</span>
     </div>

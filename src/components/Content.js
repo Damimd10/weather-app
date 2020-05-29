@@ -18,13 +18,11 @@ const currentForecast = selector({
 
     if (!response) return null;
 
-    console.log('HERE', response);
-
-    const { current, forecast } = response;
+    const { city, list } = response;
 
     return {
-      current,
-      forecast: forecast.forecastday,
+      city,
+      list,
     };
   },
 });
@@ -36,23 +34,27 @@ const Content = () => {
   if (state === 'loading') return <span>Loading...</span>;
   if (state === 'hasError') return <span>Error</span>;
 
-  const { current, forecast } = contents;
+  const { city, list } = contents;
+
+  const forecastSorted = Object.keys(list).sort((a, b) => new Date(b) - new Date(a));
+
+  console.log('HERE', list[forecastSorted[0]][0]);
 
   return (
     <main>
-      <div className="my-2 flex justify-center mb-4">
-        {forecast.map((current) => (
-          <Forecast key={current.date_epoch} {...current} />
+      <div className="flex flex-wrap overflow-hidden m-2">
+        {forecastSorted.map((day) => (
+          <Forecast key={list[day][0].dt_txt} {...list[day][0]} />
         ))}
       </div>
-      <div className="my-2 flex justify-center flex-wrap">
-        <HighlightUV index={current.uv} />
-        <WindStatus wind={current.wind_kph} direction={current.wind_dir} />
-        <Astro {...head(forecast).astro} />
+      <div className="my-2 flex flex-wrap justify-center mx-1 overflow-hidden sm:-mx-1 md:-mx-1 lg:-mx-1 xl:mx-1">
+        {/* <HighlightUV index={current.uv} /> <Astro {...head(forecast).astro} /><Humidity humidity={current.humidity} />
+        <Visibility visibility={current.vis_km} /> */}
+        <WindStatus {...list[forecastSorted[0]][0].wind} />
+        <Astro sunrise={city.sunrise} sunset={city.sunset} />
       </div>
-      <div className="my-2 flex justify-center flex-wrap">
-        <Humidity humidity={current.humidity} />
-        <Visibility visibility={current.vis_km} />
+      <div className="my-2 flex flex-wrap justify-center mx-1 overflow-hidden sm:-mx-1 md:-mx-1 lg:-mx-1 xl:mx-1">
+        <span>Hi</span>
       </div>
     </main>
   );

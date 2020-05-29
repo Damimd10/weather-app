@@ -5,6 +5,8 @@ import { RecoilRoot } from 'recoil';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import './assets/weather-icons/css/weather-icons.css';
+import './assets/weather-icons/css/weather-icons-wind.css';
 import './tailwind.generated.css';
 
 ReactDOM.render(
