@@ -18,10 +18,9 @@ const WindStatus = ({ deg, speed }) => {
       </div>
       <div className="flex items-center">
         <i
-          className={`wi wi-wind towards-${calculatedDeg}-deg`}
-          style={{ fontSize: '2rem' }}
+          className={`wi wi-wind towards-${calculatedDeg}-deg text-4xl text-indigo-600`}
         />
-        <span className="ml-2">{deg}</span>
+        <span className="ml-2 text-gray-600 text-xl">{deg}&#176;</span>
       </div>
     </StatBox>
   );
