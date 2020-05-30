@@ -10,6 +10,7 @@ import Astro from './Astro';
 import Forecast from './Forecast';
 import Humidity from './Humidity';
 import HighlightUV from './HighlightUV';
+import Pressure from './Pressure';
 import Visibility from './Visibility';
 import WindStatus from './WindStatus';
 
@@ -40,6 +41,8 @@ const Content = () => {
 
   const [_, ...forecast] = daily;
 
+  console.log('HERE', current);
+
   return (
     <main>
       <div className="flex flex-wrap overflow-hidden m-2">
@@ -60,6 +63,7 @@ const Content = () => {
       <div className="my-2 flex flex-wrap justify-center mx-1 overflow-hidden sm:-mx-1 md:-mx-1 lg:-mx-1 xl:mx-1">
         <Humidity humidity={current.humidity} />
         <Visibility visibility={current.visibility / 1000} />
+        <Pressure pressure={current.pressure} />
       </div>
     </main>
   );

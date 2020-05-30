@@ -48,11 +48,11 @@ const Sidebar = () => {
     <section className="m-2 flex flex-col items-center">
       <div className="relative text-center text-gray-600">
         <input
-          className="bg-white w-4/5 h-10 px-5 pr-10 border-2 border-gray-400 rounded-full text-sm focus:outline-none"
+          className="bg-white w-full h-10 px-2 pl-5 border-2 border-gray-400 rounded-full text-sm focus:outline-none"
           name="serch"
           onChange={handleTextChange}
           onKeyPress={handleKeyPress}
-          placeholder="Search"
+          placeholder="Search "
           type="search"
           value={value}
         />
