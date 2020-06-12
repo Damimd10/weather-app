@@ -19,13 +19,17 @@ const currentForecast = selector({
   get: async ({ get }) => {
     const response = await get(weatherState);
 
-    if (!response) return null;
+    if (!response.data)
+      return {
+        status: response.status,
+      };
 
-    const { current, daily } = response;
+    const { current, daily } = response.data;
 
     return {
       current,
       daily,
+      status: response.status,
     };
   },
 });
@@ -33,19 +37,17 @@ const currentForecast = selector({
 const Content = () => {
   const { contents, state } = useRecoilValueLoadable(currentForecast);
 
-  if (!contents) return null;
-  if (state === 'loading') return <span>Loading...</span>;
-  if (state === 'hasError') return <span>Error</span>;
+  if (contents.status === 'IDLE' || !contents.status) return null;
+  if (contents.status === 'PENDING') return <span>Loading...</span>;
+  if (contents.status === 'REJECTED') return <span>Error</span>;
 
   const { current, daily } = contents;
 
   const [_, ...forecast] = daily;
 
-  console.log('HERE', current);
-
   return (
-    <main>
-      <div className="flex flex-wrap overflow-hidden m-2">
+    <main className="mt-2">
+      <div className="w-full flex flex-wrap space-y-2 overflow-hidden">
         {take(6, forecast).map((day) => (
           <Forecast
             key={day.dt}

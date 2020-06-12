@@ -12,11 +12,11 @@ const WindStatus = ({ deg, speed }) => {
 
   return (
     <StatBox title="Wind Status">
-      <div className="text-gray-600 flex items-center justify-center">
+      <div className="text-gray-600 mt-auto flex items-center justify-center">
         <span className="m-2 text-6xl">{speed}</span>
         <span className="text-2xl">km/h</span>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center mt-auto">
         <i
           className={`wi wi-wind towards-${calculatedDeg}-deg text-4xl text-indigo-600`}
         />

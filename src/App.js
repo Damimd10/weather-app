@@ -5,12 +5,12 @@ import Sidebar from './components/Sidebar';
 
 function App() {
   return (
-    <main className="">
-      <div className="flex h-screen border-2 rounded shadow-md">
-        <div className="w-1/4 bg-white h-full">
+    <main>
+      <div className="flex flex-wrap h-screen border-2 rounded shadow-md">
+        <div className="w-full bg-white lg:h-full xl:h-full xl:w-1/4">
           <Sidebar />
         </div>
-        <div className="w-3/4 bg-gray-100 h-full">
+        <div className="w-full bg-gray-100 h-full xl:w-3/4">
           <Content />
         </div>
       </div>
