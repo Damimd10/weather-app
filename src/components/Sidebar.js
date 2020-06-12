@@ -4,6 +4,8 @@ import { atom, useRecoilState } from 'recoil';
 import moment from 'moment';
 import { head } from 'ramda';
 
+import ReactLoading from 'react-loading';
+
 import { weatherState } from '../atoms';
 
 const ENDPOINT = 'http://api.openweathermap.org/data/2.5/weather';
@@ -58,7 +60,11 @@ const Sidebar = () => {
           value={value}
         />
       </div>
-      {weather.status === 'PENDING' && <span>Loading</span>}
+      {weather.status === 'PENDING' && (
+        <div className="h-64 flex items-center justify-center">
+          <ReactLoading type="spin" color="black" height={100} width={100} />
+        </div>
+      )}
       {weather.data && (
         <div>
           <img

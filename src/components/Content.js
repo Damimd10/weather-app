@@ -2,11 +2,13 @@ import React from 'react';
 import { take } from 'ramda';
 import { selector, useRecoilValueLoadable } from 'recoil';
 
+import ReactLoading from 'react-loading';
 import moment from 'moment';
 
 import { weatherState } from '../atoms';
 
 import Astro from './Astro';
+import Error from './Error';
 import Forecast from './Forecast';
 import Humidity from './Humidity';
 import HighlightUV from './HighlightUV';
@@ -38,8 +40,19 @@ const Content = () => {
   const { contents, state } = useRecoilValueLoadable(currentForecast);
 
   if (contents.status === 'IDLE' || !contents.status) return null;
-  if (contents.status === 'PENDING') return <span>Loading...</span>;
-  if (contents.status === 'REJECTED') return <span>Error</span>;
+  if (contents.status === 'PENDING')
+    return (
+      <div className="h-64 flex justify-center items-center">
+        <ReactLoading type="spin" color="black" height={100} width={100} />
+      </div>
+    );
+
+  if (contents.status === 'REJECTED')
+    return (
+      <div className="h-64 flex justify-center items-center">
+        <Error message="We couldn't find the city" />
+      </div>
+    );
 
   const { current, daily } = contents;
 
@@ -47,7 +60,7 @@ const Content = () => {
 
   return (
     <main className="mt-2">
-      <div className="w-full flex flex-wrap space-y-2 overflow-hidden">
+      <div className="w-full flex flex-wrap justify-center space-x-3 space-y-2 overflow-hidden">
         {take(6, forecast).map((day) => (
           <Forecast
             key={day.dt}

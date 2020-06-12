@@ -5,7 +5,7 @@ const Forecast = ({ dayName, max, min, weather }) => {
   const { description, icon } = weather[0];
 
   return (
-    <div className="w-full overflow-hidden xl:w-1/6">
+    <div className="w-full overflow-hidden xl:w-64">
       <div className="h-full bg-white flex flex-col items-center rounded-lg overflow-hidden shadow-lg">
         <div className="px-6 pt-2">
           <p className="text-gray-600 uppercase text-2xl">{dayName}</p>
