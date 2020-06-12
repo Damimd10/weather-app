@@ -8,7 +8,7 @@ import ReactLoading from 'react-loading';
 
 import { weatherState } from '../atoms';
 
-const ENDPOINT = 'http://api.openweathermap.org/data/2.5/weather';
+const ENDPOINT = 'https://api.openweathermap.org/data/2.5/weather';
 const ENDPOINT_ONE_CALL = 'https://api.openweathermap.org/data/2.5/onecall';
 
 const city = atom({
