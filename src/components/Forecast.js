@@ -13,7 +13,7 @@ const Forecast = ({ dayName, max, min, weather }) => {
         <div className="px-6 text-center">
           <img
             alt={description}
-            src={`http://openweathermap.org/img/wn/${icon}@4x.png`}
+            src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
           />
           <div className="my-3 text-center">
             <span className="inline-block rounded-full text-sm font-bold text-gray-700 mr-2">
