@@ -39,6 +39,8 @@ const currentForecast = selector({
 const Content = () => {
   const { contents, state } = useRecoilValueLoadable(currentForecast);
 
+  console.log('HERE', contents, state);
+
   if (contents.status === 'IDLE' || !contents.status) return null;
   if (contents.status === 'PENDING')
     return (
